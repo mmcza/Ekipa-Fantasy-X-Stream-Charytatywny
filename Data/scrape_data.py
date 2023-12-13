@@ -60,7 +60,6 @@ def scrape_recent_donations(driver, count=6):
                 print(f"Stale Element Reference Exception: {e}")
                 continue
 
-        # Usuń ostatnie 6 dotacji z DOM
         for donation_element in donations_elements[-count:]:
             driver.execute_script("arguments[0].remove();", donation_element)
 
@@ -74,8 +73,7 @@ def scrape_recent_donations(driver, count=6):
         if len(recent_donations_info) >= count:
             return recent_donations_info
 
-# Poniżej znajduje się kod do użycia funkcji w kontekście Twojego problemu
-url = "https://www.siepomaga.pl/x-stream-charytatywny-ekipy-fantasy"
+url = "https://www.siepomaga.pl/x-stream-charytatywny-ekipy-fantasy-cel-x"
 path = r"C:\Users\marci\Downloads\chromedriver-win64\chromedriver.exe"
 options = webdriver.ChromeOptions()
 options.add_argument(f"webdriver.chrome.driver:{path}")
@@ -92,12 +90,10 @@ while True:
     recent_donations_info = scrape_recent_donations(driver, count=6)
     all_donations_info.extend(recent_donations_info)
 
-    # Zakończ, jeśli zebrano wystarczającą ilość dotacji
-    if len(all_donations_info) >= 3607:
+    if len(all_donations_info) >= 755:
         break
 
 df = pd.DataFrame(all_donations_info)
-df.to_csv('donations_data.csv', index=False, mode='a')
+df.to_csv('donations_data_2.csv', index=False, mode='a')
 
-# Zatrzymaj okno przeglądarki otwarte do momentu wprowadzenia danych przez użytkownika
 input("Naciśnij Enter, aby zamknąć przeglądarkę...")
