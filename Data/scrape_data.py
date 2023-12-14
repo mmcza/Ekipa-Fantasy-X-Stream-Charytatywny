@@ -12,7 +12,7 @@ def scroll_to_bottom(driver):
     time.sleep(0.01)
 
 def click_show_more(driver):
-    show_more_button_xpath = "//div[@class='sc-byUoaA cjFWkT']//button[@data-testid='button-load-more-button-donation-list-box-subject-supporters-section-fundraise-page']"
+    show_more_button_xpath = "//button[@data-testid='button-load-more-button-donation-list-box-subject-supporters-section-fundraise-page']"
 
     try:
         show_more_button = WebDriverWait(driver, 10).until(
@@ -41,10 +41,10 @@ def scrape_recent_donations(driver, count=6):
         for donation_element in donations_elements:
             try:
                 name = donation_element.get_attribute("aria-label").replace("Wpłata od - ", "")
-                amount = donation_element.find_element(By.XPATH, ".//span[@class='sc-hhpBdf bVGfl']").text
-                date_time = donation_element.find_element(By.XPATH, ".//time[@class='sc-dAfKBC kinJVg']").get_attribute("datetime")
+                amount = donation_element.find_element(By.XPATH, ".//span[@class='sc-spCdH ktssxh']").text
+                date_time = donation_element.find_element(By.XPATH, ".//time[@class='sc-khrQBJ jVFOmt']").get_attribute("datetime")
 
-                message_element = donation_element.find_elements(By.XPATH, ".//p[@class='sc-jxLbor dtGjUS']")
+                message_element = donation_element.find_elements(By.XPATH, ".//p[@class='sc-eTOxzm eoQJpi']")
                 message = message_element[0].text if message_element else "Null"
 
                 donation_info = {
@@ -90,7 +90,7 @@ while True:
     recent_donations_info = scrape_recent_donations(driver, count=6)
     all_donations_info.extend(recent_donations_info)
 
-    if len(all_donations_info) >= 755:
+    if len(all_donations_info) >= 180:
         break
 
 df = pd.DataFrame(all_donations_info)
